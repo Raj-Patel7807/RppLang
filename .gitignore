@@ -64,3 +64,6 @@ config.properties
 
 # Other
 .kotlin
+
+out/
+*.class
