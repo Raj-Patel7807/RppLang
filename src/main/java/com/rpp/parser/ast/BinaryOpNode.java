@@ -1,5 +1,6 @@
 package com.rpp.parser.ast;
 
+import com.rpp.lexer.Token;
 import com.rpp.lexer.TokenType;
 import com.rpp.runtime.Environment;
 
@@ -37,6 +38,18 @@ public class BinaryOpNode extends Node {
                 return a * b;
             } else if(operator == TokenType.DIVIDE) {
                 return a / b;
+            } else if(operator == TokenType.GREATER) {
+                return a > b;
+            } else if(operator == TokenType.GREATER_EQUAL) {
+                return a >= b;
+            } else if(operator == TokenType.LESS) {
+                return a < b;
+            } else if(operator == TokenType.LESS_EQUAL) {
+                return a <= b;
+            } else if(operator == TokenType.EQUAL_EQUAL) {
+                return a == b;
+            } else if(operator == TokenType.NOT_EQUAL) {
+                return a != b;
             } else {
                 throw new RuntimeException("Invalid operator for Double");
             }
@@ -54,6 +67,18 @@ public class BinaryOpNode extends Node {
                 return a.multiply(b);
             } else if(operator == TokenType.DIVIDE) {
                 return a.divide(b);
+            } else if(operator == TokenType.GREATER) {
+                return a.compareTo(b) > 0;
+            } else if(operator == TokenType.GREATER_EQUAL) {
+                return a.compareTo(b) >= 0;
+            } else if(operator == TokenType.LESS) {
+                return a.compareTo(b) < 0;
+            } else if(operator == TokenType.LESS_EQUAL) {
+                return a.compareTo(b) <= 0;
+            } else if(operator == TokenType.EQUAL_EQUAL) {
+                return a.compareTo(b) == 0;
+            } else if(operator == TokenType.NOT_EQUAL) {
+                return a.compareTo(b) != 0;
             } else {
                 throw new RuntimeException("Invalid operator for BigInteger");
             }
@@ -71,6 +96,18 @@ public class BinaryOpNode extends Node {
                 return a * b;
             } else if(operator == TokenType.DIVIDE) {
                 return a / b;
+            } else if(operator == TokenType.GREATER) {
+                return a > b;
+            } else if(operator == TokenType.GREATER_EQUAL) {
+                return a >= b;
+            } else if(operator == TokenType.LESS) {
+                return a < b;
+            } else if(operator == TokenType.LESS_EQUAL) {
+                return a <= b;
+            } else if(operator == TokenType.EQUAL_EQUAL) {
+                return a == b;
+            } else if(operator == TokenType.NOT_EQUAL) {
+                return a != b;
             } else {
                 throw new RuntimeException("Invalid operator for Long");
             }
@@ -88,9 +125,27 @@ public class BinaryOpNode extends Node {
                 return a * b;
             } else if(operator == TokenType.DIVIDE) {
                 return a / b;
+            } else if(operator == TokenType.GREATER) {
+                return a > b;
+            } else if(operator == TokenType.GREATER_EQUAL) {
+                return a >= b;
+            } else if(operator == TokenType.LESS) {
+                return a < b;
+            } else if(operator == TokenType.LESS_EQUAL) {
+                return a <= b;
+            } else if(operator == TokenType.EQUAL_EQUAL) {
+                return a == b;
+            } else if(operator == TokenType.NOT_EQUAL) {
+                return a != b;
             } else {
                 throw new RuntimeException("Invalid operator for Integer");
             }
+        }
+
+        if(operator == TokenType.EQUAL_EQUAL) {
+            return l.equals(r);
+        } else if(operator == TokenType.NOT_EQUAL) {
+            return !l.equals(r);
         }
 
         throw new RuntimeException("Unsupported types: " + l + " , " + r);

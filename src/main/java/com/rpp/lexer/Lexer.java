@@ -31,6 +31,10 @@ public class Lexer {
                     tokens.add(new Token(TokenType.PRINT, word));
                 } else if(word.equals("true") || word.equals("false")) {
                     tokens.add(new Token(TokenType.BOOLEAN, word));
+                } else if(word.equals("if")) {
+                    tokens.add(new Token(TokenType.IF, word));
+                } else if(word.equals("else")) {
+                    tokens.add(new Token(TokenType.ELSE, word));
                 } else {
                     tokens.add(new Token(TokenType.IDENTIFIER, word));
                 }
@@ -54,15 +58,65 @@ public class Lexer {
             } else if(cur == '*') {
                 tokens.add(new Token(TokenType.MULTIPLY, "*"));
             } else if(cur == '/') {
-                tokens.add(new Token(TokenType.DIVIDE, "/"));
+                if(pos + 1 < input.length() && input.charAt(pos + 1) == '/') {
+                    pos += 2;
+
+                    while(pos < input.length() && input.charAt(pos) != '\n') {
+                        pos++;
+                    }
+                    continue;
+                } else if(pos + 1 < input.length() && input.charAt(pos + 1) == '*') {
+                    pos += 2;
+
+                    while(pos + 1 < input.length() && !(input.charAt(pos) == '*' && input.charAt(pos + 1) == '/')) {
+                        pos++;
+                    }
+                    if(pos + 1 >= input.length()) {
+                        throw new RuntimeException("Unterminated comment");
+                    }
+                    pos += 2;
+                    continue;
+                } else {
+                    tokens.add(new Token(TokenType.DIVIDE, "/"));
+                }
             } else if(cur == '=') {
-                tokens.add(new Token(TokenType.ASSIGN, "="));
+                if(pos + 1 < input.length() && input.charAt(pos + 1) == '=') {
+                    tokens.add(new Token(TokenType.EQUAL_EQUAL, "=="));
+                    pos++;
+                } else {
+                    tokens.add(new Token(TokenType.ASSIGN, "="));
+                }
             } else if(cur == ';') {
                 tokens.add(new Token(TokenType.SEMICOLON, ";"));
             } else if(cur == '(') {
                 tokens.add(new Token(TokenType.LEFT_PAREN, "("));
             } else if(cur == ')') {
                 tokens.add(new Token(TokenType.RIGHT_PAREN, ")"));
+            } else if(cur == '{') {
+                tokens.add(new Token(TokenType.LEFT_BRACE, "{"));
+            } else if(cur == '}') {
+                tokens.add(new Token(TokenType.RIGHT_BRACE, "}"));
+            } else if(cur == '>') {
+                if(pos + 1 < input.length() && input.charAt(pos + 1) == '=') {
+                    tokens.add(new Token(TokenType.GREATER_EQUAL, ">="));
+                    pos++;
+                } else {
+                    tokens.add(new Token(TokenType.GREATER, ">"));
+                }
+            } else if(cur == '<') {
+                if(pos + 1 < input.length() && input.charAt(pos + 1) == '=') {
+                    tokens.add(new Token(TokenType.LESS_EQUAL, "<="));
+                    pos++;
+                } else {
+                    tokens.add(new Token(TokenType.LESS, "<"));
+                }
+            } else if(cur == '!') {
+                if(pos + 1 < input.length() && input.charAt(pos + 1) == '=') {
+                    tokens.add(new Token(TokenType.NOT_EQUAL, "!="));
+                    pos++;
+                } else {
+                    throw new RuntimeException("Unexpected !");
+                }
             } else {
                 throw new RuntimeException("Syntax Error: " + cur);
             }

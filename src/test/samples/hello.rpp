@@ -21,3 +21,19 @@ print(x + y);
 print(y + z);
 print("Value: " + y);
 
+// This is a comment;
+/* this is a multiline comment */
+
+let yy = 10;
+yy = yy + 10;
+print(yy);
+
+if(yy >= 10) {
+    print("Hello from if");
+} else if(yy == 10) {
+    print("HELLO from else if 1");
+} else if(yy == 10) {
+    print("HELLO FROM else if 2");
+} else {
+    print("HELLO from else");
+}

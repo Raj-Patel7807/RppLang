@@ -47,18 +47,76 @@ public class Parser {
             consume(TokenType.SEMICOLON);
 
             return new PrintNode(value);
+        } else if(match(TokenType.IF)) {
+            consume(TokenType.LEFT_PAREN);
+            Node condition = expression();
+            consume(TokenType.RIGHT_PAREN);
+
+            List<Node> thenBlock = block();
+            List<ElseIfBlock> elseIfs = new ArrayList<>();
+            List<Node> elseBlock = null;
+
+            while(match(TokenType.ELSE)) {
+                if(match(TokenType.IF)) {
+                    consume(TokenType.LEFT_PAREN);
+                    Node cond = expression();
+                    consume(TokenType.RIGHT_PAREN);
+
+                    List<Node> blk = block();
+                    elseIfs.add(new ElseIfBlock(cond, blk));
+                } else {
+                    elseBlock = block();
+                    break;
+                }
+            }
+
+            return new IfNode(condition, thenBlock, elseIfs, elseBlock);
+
+        } else if (check(TokenType.IDENTIFIER) && checkNext(TokenType.ASSIGN)) {
+            String name = consume(TokenType.IDENTIFIER).value;
+            consume(TokenType.ASSIGN);
+
+            Node value = expression();
+
+            consume(TokenType.SEMICOLON);
+
+            return new AssignmentNode(name, value);
         }
 
         throw new RuntimeException("Invalid statement at token: " + peek());
     }
 
     private Node expression() {
-        Node left = term();
+        Node left = equality();
 
         while(match(TokenType.PLUS) || match(TokenType.MINUS)) {
-            Token operator = tokens.get(pos - 1);
+            Token op = tokens.get(pos - 1);
+            Node right = equality();
+            left = new BinaryOpNode(left, op.type, right);
+        }
+
+        return left;
+    }
+
+    private Node equality() {
+        Node left = comparison();
+
+        while(match(TokenType.EQUAL_EQUAL) || match(TokenType.NOT_EQUAL)) {
+            Token op = tokens.get(pos - 1);
+            Node right = comparison();
+            left = new BinaryOpNode(left, op.type, right);
+        }
+
+        return left;
+    }
+
+    private Node comparison() {
+        Node left = term();
+
+        while(match(TokenType.GREATER) || match(TokenType.GREATER_EQUAL) || match(TokenType.LESS) || match(TokenType.LESS_EQUAL)) {
+            Token op = tokens.get(pos - 1);
             Node right = term();
-            left = new BinaryOpNode(left, operator.type, right);
+            left = new BinaryOpNode(left, op.type, right);
         }
 
         return left;
@@ -117,7 +175,27 @@ public class Parser {
         return tokens.get(pos).type == type;
     }
 
+    private boolean checkNext(TokenType type) {
+        if(pos + 1 >= tokens.size()) {
+            return false;
+        }
+        return tokens.get(pos + 1).type == type;
+    }
+
     private Token peek() {
         return tokens.get(pos);
+    }
+
+    private List<Node> block() {
+        consume(TokenType.LEFT_BRACE);
+
+        List<Node> states = new ArrayList<>();
+
+        while(!check(TokenType.RIGHT_BRACE) && !check(TokenType.EOF)) {
+            states.add(statement());
+        }
+
+        consume(TokenType.RIGHT_BRACE);
+        return states;
     }
 }
