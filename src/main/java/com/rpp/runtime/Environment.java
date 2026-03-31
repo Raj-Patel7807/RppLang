@@ -16,4 +16,8 @@ public class Environment {
         }
         return variables.get(name);
     }
+
+    public boolean exists(String name) {
+        return variables.containsKey(name);
+    }
 }
