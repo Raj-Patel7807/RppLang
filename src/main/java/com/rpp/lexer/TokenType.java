@@ -5,6 +5,7 @@ public enum TokenType {
     NUMBER,
 
     STRING,
+    BOOLEAN,
 
     LET,
     PRINT,
