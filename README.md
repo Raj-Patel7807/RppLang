@@ -22,15 +22,18 @@ java -jar rpp.jar <your_file>.rpp
 
 # R++ Syntax
 
-## Variable Declaration:
 ```bash
 let x = 10;
 let y = 100;
-let z = x + y;
-```
+let z = x + y;                  // you can do any arithmetic operations;
+let temp;
+let name = "Tony Stark";
+let float = 7.8;
 
-## Printing:
-```bash
 print("Hello, World!");
+print(x + y);                   // any arithmetic ops;
 print(z);
+print("Value of z = " + z);
+print("Hello" + " World..");
+print(name);
 ```
