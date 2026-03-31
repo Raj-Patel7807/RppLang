@@ -1,4 +1,7 @@
 package com.rpp.parser.ast;
 
-public class Node {
+import com.rpp.runtime.Environment;
+
+public abstract class Node {
+    public abstract Object evaluate(Environment env);
 }
