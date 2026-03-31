@@ -29,6 +29,9 @@ let z = x + y;                  // you can do any arithmetic operations;
 let temp;
 let name = "Tony Stark";
 let float = 7.8;
+let a = 10;
+a = a + 10;
+a = x + y + a * 10;
 
 print("Hello, World!");
 print(x + y);                   // any arithmetic ops;
@@ -36,4 +39,21 @@ print(z);
 print("Value of z = " + z);
 print("Hello" + " World..");
 print(name);
+
+// This is a Single Line comment
+/*
+This is a Multi Line Comment
+This is a Multi Line Comment
+*/
+
+let marks = 99;
+if(marks >= 91) {
+  print("Grade A");
+} else if(marks >= 81) {
+  print("Grade B");
+} else if(marks >= 33) {
+  print("Pass");
+} else {
+  print("Fail");
+}
 ```
