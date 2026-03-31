@@ -29,6 +29,8 @@ public class Lexer {
                     tokens.add(new Token(TokenType.LET, word));
                 } else if(word.equals("print")) {
                     tokens.add(new Token(TokenType.PRINT, word));
+                } else if(word.equals("true") || word.equals("false")) {
+                    tokens.add(new Token(TokenType.BOOLEAN, word));
                 } else {
                     tokens.add(new Token(TokenType.IDENTIFIER, word));
                 }
@@ -82,8 +84,20 @@ public class Lexer {
 
     private String readNumber() {
         StringBuilder sb = new StringBuilder();
-        while(pos < input.length() && Character.isDigit(input.charAt(pos))) {
-            sb.append(input.charAt(pos++));
+        boolean hasDot = false;
+
+        while(pos < input.length()) {
+            char c = input.charAt(pos);
+
+            if(Character.isDigit(c)) {
+                sb.append(c);
+            } else if(c == '.' && !hasDot) {
+                hasDot = true;
+                sb.append(c);
+            } else {
+                break;
+            }
+            pos++;
         }
         return sb.toString();
     }
