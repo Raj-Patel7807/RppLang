@@ -2,9 +2,12 @@ package com.rpp;
 
 import com.rpp.lexer.Lexer;
 import com.rpp.parser.Parser;
+import com.rpp.parser.ast.Node;
+import com.rpp.runtime.Environment;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -26,9 +29,13 @@ public class Main {
         );
 
         Lexer lexer = new Lexer(code);
-
         Parser parser = new Parser(lexer.tokenize());
 
-        parser.parse();
+        List<Node> nodes = parser.parse();
+        Environment env = new Environment();
+
+        for(Node node : nodes) {
+            node.evaluate(env);
+        }
     }
 }
