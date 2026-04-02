@@ -4,6 +4,7 @@ import com.rpp.error.LexerError;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.function.ToLongBiFunction;
 
 public class Lexer {
     private final String input;
@@ -37,6 +38,12 @@ public class Lexer {
                     tokens.add(new Token(TokenType.IF, word, pos));
                 } else if(word.equals("else")) {
                     tokens.add(new Token(TokenType.ELSE, word, pos));
+                } else if(word.equals("for")) {
+                    tokens.add(new Token(TokenType.FOR, word, pos));
+                } else if(word.equals("while")) {
+                    tokens.add(new Token(TokenType.WHILE, word, pos));
+                } else if(word.equals("do")) {
+                    tokens.add(new Token(TokenType.DO, word, pos));
                 } else {
                     tokens.add(new Token(TokenType.IDENTIFIER, word, pos));
                 }

@@ -37,3 +37,20 @@ if(yy >= 10) {
 } else {
     print("HELLO from else");
 }
+
+print("FOR LOOP");
+for(let i=0; i<5; i=i+1) {
+    print("i = " + i);
+}
+print("WHILE LOOP");
+let ii = 0;
+while(ii < 5) {
+    print("ii = " + ii);
+    ii = ii + 1;
+}
+print("DO WHILE LOOP");
+let j = 5;
+do {
+    print("j = " + j);
+    j = j + 1;
+} while(j < 5);

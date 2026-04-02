@@ -7,6 +7,7 @@ import com.rpp.error.ParserError;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.concurrent.BlockingDeque;
 
 public class Parser {
     private final List<Token> tokens;
@@ -73,6 +74,59 @@ public class Parser {
             }
 
             return new IfNode(condition, thenBlock, elseIfs, elseBlock);
+
+        } else if(match(TokenType.FOR)) {
+            consume(TokenType.LEFT_PAREN);
+
+            Node init = null;
+            if(!check(TokenType.SEMICOLON)) {
+                init = statement();
+            }
+
+            Node condition = null;
+            if(!check(TokenType.SEMICOLON)) {
+                condition = expression();
+            }
+            consume(TokenType.SEMICOLON);
+
+            Node update = null;
+            if(!check(TokenType.SEMICOLON)) {
+                String name = consume(TokenType.IDENTIFIER).value;
+                consume(TokenType.ASSIGN);
+
+                Node value = expression();
+
+                update = new AssignmentNode(name, value);
+            }
+            consume(TokenType.RIGHT_PAREN);
+
+            List<Node> body = block();
+
+            return new ForNode(init, condition, update, body);
+
+        } else if(match(TokenType.WHILE)) {
+            consume(TokenType.LEFT_PAREN);
+
+            Node condition = expression();
+
+            consume(TokenType.RIGHT_PAREN);
+
+            List<Node> body = block();
+
+            return new WhileNode(condition, body);
+
+        } else if(match(TokenType.DO)) {
+            List<Node> body = block();
+
+            consume(TokenType.WHILE);
+            consume(TokenType.LEFT_PAREN);
+
+            Node condition = expression();
+
+            consume(TokenType.RIGHT_PAREN);
+            consume(TokenType.SEMICOLON);
+
+            return new DoWhileNode(condition, body);
 
         } else if(check(TokenType.IDENTIFIER) && checkNext(TokenType.ASSIGN)) {
             String name = consume(TokenType.IDENTIFIER).value;

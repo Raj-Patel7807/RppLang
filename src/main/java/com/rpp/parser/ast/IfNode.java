@@ -32,7 +32,7 @@ public class IfNode extends Node {
         }
 
         for(ElseIfBlock e : elseIfs) {
-            if((boolean) e.condition.evaluate(env)) {
+            if((boolean)e.condition.evaluate(env)) {
                 for(Node stmt : e.block) {
                     stmt.evaluate(env);
                 }

@@ -36,5 +36,9 @@ public enum TokenType {
     IF,
     ELSE,
 
+    FOR,
+    WHILE,
+    DO,
+
     EOF
 }
