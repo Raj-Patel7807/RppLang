@@ -1,5 +1,7 @@
 package com.rpp.runtime;
 
+import com.rpp.error.RuntimeError;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +14,7 @@ public class Environment {
 
     public Object get(String name) {
         if(!variables.containsKey(name)) {
-            throw new RuntimeException("Undefined variable: " + name);
+            throw new RuntimeError("Undefined variable: " + name);
         }
         return variables.get(name);
     }

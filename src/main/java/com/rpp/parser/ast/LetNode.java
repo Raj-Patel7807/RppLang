@@ -1,5 +1,6 @@
 package com.rpp.parser.ast;
 
+import com.rpp.error.RuntimeError;
 import com.rpp.runtime.Environment;
 
 public class LetNode extends Node {
@@ -13,6 +14,10 @@ public class LetNode extends Node {
 
     @Override
     public Object evaluate(Environment env) {
+        if(env.exists(name)) {
+            throw new RuntimeError("Variable already declared: " + name);
+        }
+
         if(value != null) {
             Object val = value.evaluate(env);
             env.set(name, val);

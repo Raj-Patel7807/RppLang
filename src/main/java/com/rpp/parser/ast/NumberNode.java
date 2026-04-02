@@ -20,10 +20,10 @@ public class NumberNode extends Node {
 
         try {
             return Integer.parseInt(value);
-        } catch (NumberFormatException e1) {
+        } catch(NumberFormatException e1) {
             try {
                 return Long.parseLong(value);
-            } catch (NumberFormatException e2) {
+            } catch(NumberFormatException e2) {
                 return new BigInteger(value);
             }
         }

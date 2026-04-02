@@ -3,6 +3,7 @@ package com.rpp.parser;
 import com.rpp.lexer.TokenType;
 import com.rpp.parser.ast.*;
 import com.rpp.lexer.Token;
+import com.rpp.error.ParserError;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ public class Parser {
             consume(TokenType.SEMICOLON);
 
             return new PrintNode(value);
+
         } else if(match(TokenType.IF)) {
             consume(TokenType.LEFT_PAREN);
             Node condition = expression();
@@ -72,7 +74,7 @@ public class Parser {
 
             return new IfNode(condition, thenBlock, elseIfs, elseBlock);
 
-        } else if (check(TokenType.IDENTIFIER) && checkNext(TokenType.ASSIGN)) {
+        } else if(check(TokenType.IDENTIFIER) && checkNext(TokenType.ASSIGN)) {
             String name = consume(TokenType.IDENTIFIER).value;
             consume(TokenType.ASSIGN);
 
@@ -83,7 +85,7 @@ public class Parser {
             return new AssignmentNode(name, value);
         }
 
-        throw new RuntimeException("Invalid statement at token: " + peek());
+        throw new ParserError("Invalid statement at token: " + peek());
     }
 
     private Node expression() {
@@ -153,7 +155,7 @@ public class Parser {
             return node;
         }
 
-        throw new RuntimeException("Invalid expression at token: " + peek());
+        throw new ParserError("Invalid expression at token: " + peek());
     }
 
     private boolean match(TokenType type) {
@@ -168,7 +170,7 @@ public class Parser {
         if(check(type)) {
             return tokens.get(pos++);
         }
-        throw new RuntimeException("Expected " + type + " but got " + peek().type);
+        throw new ParserError("Expected " + type + " but got " + peek().type + " at position " + peek().position);
     }
 
     private boolean check(TokenType type) {

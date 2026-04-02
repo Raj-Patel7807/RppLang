@@ -12,7 +12,7 @@ public class PrintNode extends Node {
     @Override
     public Object evaluate(Environment env) {
         Object val = value.evaluate(env);
-        System.out.println(val);
+        System.out.println(String.valueOf(val));
         return null;
     }
 }

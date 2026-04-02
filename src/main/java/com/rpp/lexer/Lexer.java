@@ -1,5 +1,7 @@
 package com.rpp.lexer;
 
+import com.rpp.error.LexerError;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -26,37 +28,37 @@ public class Lexer {
                 String word = readWord();
 
                 if(word.equals("let")) {
-                    tokens.add(new Token(TokenType.LET, word));
+                    tokens.add(new Token(TokenType.LET, word, pos));
                 } else if(word.equals("print")) {
-                    tokens.add(new Token(TokenType.PRINT, word));
+                    tokens.add(new Token(TokenType.PRINT, word, pos));
                 } else if(word.equals("true") || word.equals("false")) {
-                    tokens.add(new Token(TokenType.BOOLEAN, word));
+                    tokens.add(new Token(TokenType.BOOLEAN, word, pos));
                 } else if(word.equals("if")) {
-                    tokens.add(new Token(TokenType.IF, word));
+                    tokens.add(new Token(TokenType.IF, word, pos));
                 } else if(word.equals("else")) {
-                    tokens.add(new Token(TokenType.ELSE, word));
+                    tokens.add(new Token(TokenType.ELSE, word, pos));
                 } else {
-                    tokens.add(new Token(TokenType.IDENTIFIER, word));
+                    tokens.add(new Token(TokenType.IDENTIFIER, word, pos));
                 }
                 continue;
             }
 
             if(Character.isDigit(cur)) {
-                tokens.add(new Token(TokenType.NUMBER, readNumber()));
+                tokens.add(new Token(TokenType.NUMBER, readNumber(), pos));
                 continue;
             }
 
-            if (cur == '"') {
-                tokens.add(new Token(TokenType.STRING, readString()));
+            if(cur == '"') {
+                tokens.add(new Token(TokenType.STRING, readString(), pos));
                 continue;
             }
 
             if(cur == '+') {
-                tokens.add(new Token(TokenType.PLUS, "+"));
+                tokens.add(new Token(TokenType.PLUS, "+", pos));
             } else if(cur == '-') {
-                tokens.add(new Token(TokenType.MINUS, "-"));
+                tokens.add(new Token(TokenType.MINUS, "-", pos));
             } else if(cur == '*') {
-                tokens.add(new Token(TokenType.MULTIPLY, "*"));
+                tokens.add(new Token(TokenType.MULTIPLY, "*", pos));
             } else if(cur == '/') {
                 if(pos + 1 < input.length() && input.charAt(pos + 1) == '/') {
                     pos += 2;
@@ -72,59 +74,59 @@ public class Lexer {
                         pos++;
                     }
                     if(pos + 1 >= input.length()) {
-                        throw new RuntimeException("Unterminated comment");
+                        throw new LexerError("Unterminated comment", pos);
                     }
                     pos += 2;
                     continue;
                 } else {
-                    tokens.add(new Token(TokenType.DIVIDE, "/"));
+                    tokens.add(new Token(TokenType.DIVIDE, "/", pos));
                 }
             } else if(cur == '=') {
                 if(pos + 1 < input.length() && input.charAt(pos + 1) == '=') {
-                    tokens.add(new Token(TokenType.EQUAL_EQUAL, "=="));
+                    tokens.add(new Token(TokenType.EQUAL_EQUAL, "==", pos));
                     pos++;
                 } else {
-                    tokens.add(new Token(TokenType.ASSIGN, "="));
+                    tokens.add(new Token(TokenType.ASSIGN, "=", pos));
                 }
             } else if(cur == ';') {
-                tokens.add(new Token(TokenType.SEMICOLON, ";"));
+                tokens.add(new Token(TokenType.SEMICOLON, ";", pos));
             } else if(cur == '(') {
-                tokens.add(new Token(TokenType.LEFT_PAREN, "("));
+                tokens.add(new Token(TokenType.LEFT_PAREN, "(", pos));
             } else if(cur == ')') {
-                tokens.add(new Token(TokenType.RIGHT_PAREN, ")"));
+                tokens.add(new Token(TokenType.RIGHT_PAREN, ")", pos));
             } else if(cur == '{') {
-                tokens.add(new Token(TokenType.LEFT_BRACE, "{"));
+                tokens.add(new Token(TokenType.LEFT_BRACE, "{", pos));
             } else if(cur == '}') {
-                tokens.add(new Token(TokenType.RIGHT_BRACE, "}"));
+                tokens.add(new Token(TokenType.RIGHT_BRACE, "}", pos));
             } else if(cur == '>') {
                 if(pos + 1 < input.length() && input.charAt(pos + 1) == '=') {
-                    tokens.add(new Token(TokenType.GREATER_EQUAL, ">="));
+                    tokens.add(new Token(TokenType.GREATER_EQUAL, ">=", pos));
                     pos++;
                 } else {
-                    tokens.add(new Token(TokenType.GREATER, ">"));
+                    tokens.add(new Token(TokenType.GREATER, ">", pos));
                 }
             } else if(cur == '<') {
                 if(pos + 1 < input.length() && input.charAt(pos + 1) == '=') {
-                    tokens.add(new Token(TokenType.LESS_EQUAL, "<="));
+                    tokens.add(new Token(TokenType.LESS_EQUAL, "<=", pos));
                     pos++;
                 } else {
-                    tokens.add(new Token(TokenType.LESS, "<"));
+                    tokens.add(new Token(TokenType.LESS, "<", pos));
                 }
             } else if(cur == '!') {
                 if(pos + 1 < input.length() && input.charAt(pos + 1) == '=') {
-                    tokens.add(new Token(TokenType.NOT_EQUAL, "!="));
+                    tokens.add(new Token(TokenType.NOT_EQUAL, "!=", pos));
                     pos++;
                 } else {
-                    throw new RuntimeException("Unexpected !");
+                    throw new LexerError("Unexpected '!'", pos);
                 }
             } else {
-                throw new RuntimeException("Syntax Error: " + cur);
+                throw new LexerError("Unexpected character: " + cur, pos);
             }
 
             pos++;
         }
 
-        tokens.add(new Token(TokenType.EOF, ""));
+        tokens.add(new Token(TokenType.EOF, "", pos));
         return tokens;
     }
 
@@ -166,7 +168,7 @@ public class Lexer {
         }
 
         if(pos >= input.length()) {
-            throw new RuntimeException("Unterminated string");
+            throw new LexerError("Unterminated string", pos);
         }
 
         pos++;

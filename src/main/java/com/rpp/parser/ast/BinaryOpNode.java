@@ -1,6 +1,5 @@
 package com.rpp.parser.ast;
 
-import com.rpp.lexer.Token;
 import com.rpp.lexer.TokenType;
 import com.rpp.runtime.Environment;
 

@@ -1,5 +1,6 @@
 package com.rpp.parser.ast;
 
+import com.rpp.error.RuntimeError;
 import com.rpp.runtime.Environment;
 
 public class AssignmentNode extends Node {
@@ -15,8 +16,8 @@ public class AssignmentNode extends Node {
     public Object evaluate(Environment env) {
         Object val = value.evaluate(env);
 
-        if (!env.exists(name)) {
-            throw new RuntimeException("Variable not declared: " + name);
+        if(!env.exists(name)) {
+            throw new RuntimeError("Variable not declared: " + name);
         }
 
         env.set(name, val);
