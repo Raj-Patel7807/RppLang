@@ -40,5 +40,8 @@ public enum TokenType {
     WHILE,
     DO,
 
+    BREAK,
+    CONTINUE,
+
     EOF
 }

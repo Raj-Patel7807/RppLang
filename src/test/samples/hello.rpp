@@ -42,17 +42,25 @@ if(yy >= 10) {
 
 print("FOR LOOP");
 for(let i=0; i<5; i=i+1) {
+    if(i == 3) {
+        break;
+    }
     print("i = " + i);
 }
 print("WHILE LOOP");
 let i = 0;
 while(i < 5) {
+    if(i == 3) {
+        i = i + 1;
+        continue;
+    }
     print("i = " + i);
     i = i + 1;
 }
 print("DO WHILE LOOP");
 let j = 5;
 do {
+    if(j == 5) { continue; }
     print("j = " + j);
     j = j + 1;
 } while(j < 5);

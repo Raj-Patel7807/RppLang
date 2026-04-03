@@ -44,6 +44,10 @@ public class Lexer {
                     tokens.add(new Token(TokenType.WHILE, word, pos));
                 } else if(word.equals("do")) {
                     tokens.add(new Token(TokenType.DO, word, pos));
+                } else if(word.equals("break")) {
+                    tokens.add(new Token(TokenType.BREAK, word, pos));
+                } else if(word.equals("continue")) {
+                    tokens.add(new Token(TokenType.CONTINUE, word, pos));
                 } else {
                     tokens.add(new Token(TokenType.IDENTIFIER, word, pos));
                 }

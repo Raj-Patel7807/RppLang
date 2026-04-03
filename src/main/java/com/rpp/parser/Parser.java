@@ -5,6 +5,7 @@ import com.rpp.parser.ast.*;
 import com.rpp.lexer.Token;
 import com.rpp.error.ParserError;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.concurrent.BlockingDeque;
@@ -127,6 +128,16 @@ public class Parser {
             consume(TokenType.SEMICOLON);
 
             return new DoWhileNode(condition, new BlockNode(body));
+
+        } else if(match(TokenType.BREAK)) {
+            consume(TokenType.SEMICOLON);
+
+            return new BreakNode();
+
+        } else if(match(TokenType.CONTINUE)) {
+            consume(TokenType.SEMICOLON);
+
+            return new ContinueNode();
 
         } else if(check(TokenType.IDENTIFIER) && checkNext(TokenType.ASSIGN)) {
             String name = consume(TokenType.IDENTIFIER).value;

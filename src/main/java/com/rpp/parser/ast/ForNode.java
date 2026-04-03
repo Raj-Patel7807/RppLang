@@ -1,6 +1,8 @@
 package com.rpp.parser.ast;
 
 import com.rpp.runtime.Environment;
+import com.rpp.runtime.exception.BreakException;
+import com.rpp.runtime.exception.ContinueException;
 
 public class ForNode extends Node {
     private final Node init;
@@ -25,7 +27,13 @@ public class ForNode extends Node {
 
         while(condition == null || isTrue(condition.evaluate(local))) {
 
-            result = body.evaluate(local);
+            try {
+                result = body.evaluate(local);
+            } catch(ContinueException e) {
+
+            } catch(BreakException e) {
+                break;
+            }
 
             if(update != null) {
                 update.evaluate(local);

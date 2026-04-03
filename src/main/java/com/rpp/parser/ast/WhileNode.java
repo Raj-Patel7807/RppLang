@@ -1,6 +1,8 @@
 package com.rpp.parser.ast;
 
 import com.rpp.runtime.Environment;
+import com.rpp.runtime.exception.BreakException;
+import com.rpp.runtime.exception.ContinueException;
 
 public class WhileNode extends Node {
     private final Node condition;
@@ -16,7 +18,13 @@ public class WhileNode extends Node {
         Object result = null;
 
         while(isTrue(condition.evaluate(env))) {
-            result = body.evaluate(env);
+            try {
+                result = body.evaluate(env);
+            } catch(ContinueException e) {
+                continue;
+            } catch(BreakException e) {
+                break;
+            }
         }
 
         return result;
