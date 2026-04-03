@@ -64,7 +64,7 @@ for(let i=0; i<5; i=i+1) {
   print("i = " + i);
 }
 
-let i = 0;                        // redefine i after for loop, won't give error because of scope of variable..
+let i = 0;       // redefine i after for loop, will not give error because of scope of variable..
 while(i < 5) {
   if(i == 3) { break; }
   print("i = " + i);
