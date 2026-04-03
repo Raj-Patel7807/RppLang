@@ -17,7 +17,7 @@ public class CompilerPipeline {
             Parser parser = new Parser(tokens);
             List<Node> program = parser.parse();
 
-            Environment env = new Environment();
+            Environment env = new Environment(null);
 
             for(Node stmt : program) {
                 stmt.evaluate(env);

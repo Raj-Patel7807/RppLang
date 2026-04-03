@@ -2,13 +2,11 @@ package com.rpp.parser.ast;
 
 import com.rpp.runtime.Environment;
 
-import java.util.List;
-
 public class WhileNode extends Node {
     private final Node condition;
-    private final List<Node> body;
+    private final BlockNode body;
 
-    public WhileNode(Node condition, List<Node> body) {
+    public WhileNode(Node condition, BlockNode body) {
         this.condition = condition;
         this.body = body;
     }
@@ -18,9 +16,7 @@ public class WhileNode extends Node {
         Object result = null;
 
         while(isTrue(condition.evaluate(env))) {
-            for(Node stmt : body) {
-                result = stmt.evaluate(env);
-            }
+            result = body.evaluate(env);
         }
 
         return result;

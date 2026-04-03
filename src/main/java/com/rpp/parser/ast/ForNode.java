@@ -2,15 +2,13 @@ package com.rpp.parser.ast;
 
 import com.rpp.runtime.Environment;
 
-import java.util.List;
-
 public class ForNode extends Node {
     private final Node init;
     private final Node condition;
     private final Node update;
-    private final List<Node> body;
+    private final BlockNode body;
 
-    public ForNode(Node init, Node condition, Node update, List<Node> body) {
+    public ForNode(Node init, Node condition, Node update, BlockNode body) {
         this.init = init;
         this.condition = condition;
         this.update = update;
@@ -19,18 +17,18 @@ public class ForNode extends Node {
 
     @Override
     public Object evaluate(Environment env) {
+        Environment local = new Environment(env);
+
         Object result = null;
 
-        if(init != null) init.evaluate(env);
+        if(init != null) init.evaluate(local);
 
-        while(condition == null || isTrue(condition.evaluate(env))) {
+        while(condition == null || isTrue(condition.evaluate(local))) {
 
-            for(Node stmt : body) {
-                result = stmt.evaluate(env);
-            }
+            result = body.evaluate(local);
 
             if(update != null) {
-                update.evaluate(env);
+                update.evaluate(local);
             }
         }
 

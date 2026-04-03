@@ -7,11 +7,11 @@ import java.util.List;
 
 public class IfNode extends Node {
     private final Node condition;
-    private final List<Node> thenBlock;
+    private final BlockNode thenBlock;
     private final List<ElseIfBlock> elseIfs;
-    private final List<Node> elseBlock;
+    private final BlockNode elseBlock;
 
-    public IfNode(Node condition, List<Node> thenBlock, List<ElseIfBlock> elseIfs, List<Node> elseBlock) {
+    public IfNode(Node condition, BlockNode thenBlock, List<ElseIfBlock> elseIfs, BlockNode elseBlock) {
         this.condition = condition;
         this.thenBlock = thenBlock;
         this.elseIfs = elseIfs;
@@ -27,23 +27,23 @@ public class IfNode extends Node {
         }
 
         if((boolean)cond) {
-            for(Node stmt : thenBlock) stmt.evaluate(env);
-            return null;
+            return thenBlock.evaluate(env);
         }
 
         for(ElseIfBlock e : elseIfs) {
-            if((boolean)e.condition.evaluate(env)) {
-                for(Node stmt : e.block) {
-                    stmt.evaluate(env);
-                }
-                return null;
+            Object elseifCond = e.condition.evaluate(env);
+
+            if(!(elseifCond instanceof Boolean)) {
+                throw new RuntimeError("Condition must be boolean");
+            }
+
+            if((boolean) elseifCond) {
+                return e.block.evaluate(env);
             }
         }
 
         if(elseBlock != null) {
-            for(Node stmt : elseBlock) {
-                stmt.evaluate(env);
-            }
+            return elseBlock.evaluate(env);
         }
 
         return null;

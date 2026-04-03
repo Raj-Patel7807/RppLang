@@ -20,9 +20,9 @@ public class LetNode extends Node {
 
         if(value != null) {
             Object val = value.evaluate(env);
-            env.set(name, val);
+            env.define(name, val);
         } else {
-            env.set(name, null);
+            env.define(name, null);
         }
         return null;
     }

@@ -29,6 +29,8 @@ yy = yy + 10;
 print(yy);
 
 if(yy >= 10) {
+    let i = 10;
+    print("i = " + i);
     print("Hello from if");
 } else if(yy == 10) {
     print("HELLO from else if 1");
@@ -43,10 +45,10 @@ for(let i=0; i<5; i=i+1) {
     print("i = " + i);
 }
 print("WHILE LOOP");
-let ii = 0;
-while(ii < 5) {
-    print("ii = " + ii);
-    ii = ii + 1;
+let i = 0;
+while(i < 5) {
+    print("i = " + i);
+    i = i + 1;
 }
 print("DO WHILE LOOP");
 let j = 5;

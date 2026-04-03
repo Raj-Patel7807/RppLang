@@ -2,13 +2,11 @@ package com.rpp.parser.ast;
 
 import com.rpp.runtime.Environment;
 
-import java.util.List;
-
 public class DoWhileNode extends Node {
     private final Node condition;
-    private final List<Node> body;
+    private final BlockNode body;
 
-    public DoWhileNode(Node condition, List<Node> body) {
+    public DoWhileNode(Node condition, BlockNode body) {
         this.condition = condition;
         this.body = body;
     }
@@ -18,9 +16,7 @@ public class DoWhileNode extends Node {
         Object result = null;
 
         do {
-            for(Node stmt : body) {
-                result = stmt.evaluate(env);
-            }
+            result = body.evaluate(env);
         } while(isTrue(condition.evaluate(env)));
 
         return result;

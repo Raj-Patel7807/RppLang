@@ -66,14 +66,14 @@ public class Parser {
                     consume(TokenType.RIGHT_PAREN);
 
                     List<Node> blk = block();
-                    elseIfs.add(new ElseIfBlock(cond, blk));
+                    elseIfs.add(new ElseIfBlock(cond, new BlockNode(blk)));
                 } else {
                     elseBlock = block();
                     break;
                 }
             }
 
-            return new IfNode(condition, thenBlock, elseIfs, elseBlock);
+            return new IfNode(condition, new BlockNode(thenBlock), elseIfs, new BlockNode(elseBlock));
 
         } else if(match(TokenType.FOR)) {
             consume(TokenType.LEFT_PAREN);
@@ -102,7 +102,7 @@ public class Parser {
 
             List<Node> body = block();
 
-            return new ForNode(init, condition, update, body);
+            return new ForNode(init, condition, update, new BlockNode(body));
 
         } else if(match(TokenType.WHILE)) {
             consume(TokenType.LEFT_PAREN);
@@ -113,7 +113,7 @@ public class Parser {
 
             List<Node> body = block();
 
-            return new WhileNode(condition, body);
+            return new WhileNode(condition, new BlockNode(body));
 
         } else if(match(TokenType.DO)) {
             List<Node> body = block();
@@ -126,7 +126,7 @@ public class Parser {
             consume(TokenType.RIGHT_PAREN);
             consume(TokenType.SEMICOLON);
 
-            return new DoWhileNode(condition, body);
+            return new DoWhileNode(condition, new BlockNode(body));
 
         } else if(check(TokenType.IDENTIFIER) && checkNext(TokenType.ASSIGN)) {
             String name = consume(TokenType.IDENTIFIER).value;
