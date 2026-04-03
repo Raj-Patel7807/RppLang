@@ -56,4 +56,23 @@ if(marks >= 91) {
 } else {
   print("Fail");
 }
+
+for(let i=0; i<5; i=i+1) {
+  if(i == 3) {
+    break;                            // can also use "continue;"
+  }
+  print("i = " + i);
+}
+
+let i = 0;                        // redefine i after for loop, won't give error because of scope of variable..
+while(i < 5) {
+  if(i == 3) { break; }
+  print("i = " + i);
+  i = i + 1;
+}
+
+let j = 0;
+do {
+  print("j = " + j);
+} while(j < 0);
 ```
