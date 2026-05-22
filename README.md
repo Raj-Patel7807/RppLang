@@ -1,26 +1,87 @@
-# R++ Compiler
+# R++ Compiler 🚀
 
-R++ is a custom programming language with a simple syntax designed for learning and experimenting with compiler design.
+R++ is a custom interpreted programming language built in Java for learning and experimenting with compiler design concepts.
+
+The project implements the complete compilation pipeline including:
+
+- Lexical Analysis
+- Parsing
+- AST Generation
+- Runtime Execution
+- Scoped Environment Handling
+- Loop Control Flow (`break` / `continue`)
+- Error Handling System
+
+R++ is designed with a simple and beginner-friendly syntax while internally following real compiler architecture patterns.
 
 ---
 
-## Requirements
+## ✨ Features
 
-- **Java Development Kit (JDK)** installed on your system (version 17 or above recommended).
-- **Command line / terminal** to run programs.
+- Custom language syntax
+- Variable declarations and assignments
+- Arithmetic expressions
+- String handling
+- Conditional statements
+- Loops (`for`, `while`, `do-while`)
+- `break` and `continue`
+- Scoped variable environments
+- AST-based execution
+- Custom lexer, parser, and runtime
+- Runtime / parser / lexer error handling
+- Unit testing with JUnit
+- CLI based execution
 
 ---
 
-# Running R++ Programs
+# 🏗️ Compiler Architecture
 
-The repository already contains `rpp.jar` in the root.  
-To run an `.rpp` file, use:
+```text
+Source Code (.rpp)
+        ↓
+      Lexer
+        ↓
+      Tokens
+        ↓
+      Parser
+        ↓
+ Abstract Syntax Tree (AST)
+        ↓
+     Runtime
+        ↓
+      Output
+```
+
+---
+
+# 🚀 Running R++ Programs
+
+## ⚙️ Requirements
+
+- Java JDK 17 or above
+- Maven
+- Terminal / Command Prompt
+
+---
+
+## Running Programs
+The repository already contains `rpp.jar` in the root directory.
+
+Run any `.rpp` file using:
 
 ```bash
 java -jar rpp.jar <your_file>.rpp
 ```
 
-# R++ Syntax
+Example:
+
+```bash
+java -jar rpp.jar hello.rpp
+```
+
+---
+
+# 🧠 R++ Syntax
 
 ```bash
 let x = 10;
@@ -76,3 +137,44 @@ do {
   print("j = " + j);
 } while(j < 0);
 ```
+
+---
+
+# 🔍 Supported Language Features
+
+| Category | Features |
+|---|---|
+| Variables | Declaration, Assignment, Reassignment |
+| Data Types | Numbers, Strings, Booleans |
+| Operators | Arithmetic, Comparison |
+| Control Flow | `if`, `else if`, `else` |
+| Loops | `for`, `while`, `do-while` |
+| Loop Control | `break`, `continue` |
+| Output | `print()` |
+| Comments | Single-line and Multi-line |
+| Scope Handling | Block Scoped Variables |
+| Architecture | Lexer → Parser → AST → Runtime |
+| Error Handling | Lexer, Parser, Runtime Errors |
+
+---
+
+# 🛠️ Tech Stack
+
+- Java 17+
+- Maven
+
+---
+
+# 📌 Future Improvements
+
+- Functions
+- Arrays
+- Objects / Classes
+- File handling
+- User input support
+- Better type system
+- Standard library
+
+---
+
+Made by Raj Patel.

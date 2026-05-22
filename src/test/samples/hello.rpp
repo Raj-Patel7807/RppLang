@@ -15,7 +15,7 @@ print("B - A = " + (b - a));
 
 let x = 10;
 let y = 999999999999999999999;
-let z = 5.5;
+let z = 5.5222222222222222222222222222222222222222222222222222222222;
 
 print(x + y);
 print(y + z);
@@ -30,6 +30,7 @@ print(yy);
 
 if(yy >= 10) {
     let i = 10;
+    i = i + 10;
     print("i = " + i);
     print("Hello from if");
 } else if(yy == 10) {
