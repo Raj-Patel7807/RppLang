@@ -1,14 +1,12 @@
 package com.rpp.parser;
 
+import com.rpp.error.ParserError;
+import com.rpp.lexer.Token;
 import com.rpp.lexer.TokenType;
 import com.rpp.parser.ast.*;
-import com.rpp.lexer.Token;
-import com.rpp.error.ParserError;
 
-import java.util.Comparator;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.concurrent.BlockingDeque;
+import java.util.List;
 
 public class Parser {
     private final List<Token> tokens;

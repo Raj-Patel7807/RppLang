@@ -1,0 +1,12 @@
+
+Get All Source Files -> cmd /c "dir /s /b src\*.java > sources.txt"
+
+Compile Project -> cmd /c "javac -d out @sources.txt"
+
+To Create JAR -> jar cfe rpp.jar com.rpp.Main -C out .
+
+To Debug JAR -> jar tf rpp.jar
+
+Run Programs with JAR -> java -jar rpp.jar src/test/samples/hello.rpp
+                       -> java -jar rpp.jar hello.rpp
+

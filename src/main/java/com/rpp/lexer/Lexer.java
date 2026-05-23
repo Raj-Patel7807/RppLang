@@ -2,9 +2,8 @@ package com.rpp.lexer;
 
 import com.rpp.error.LexerError;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.function.ToLongBiFunction;
+import java.util.List;
 
 public class Lexer {
     private final String input;

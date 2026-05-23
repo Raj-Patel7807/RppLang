@@ -26,7 +26,7 @@ public class IfNode extends Node {
             throw new RuntimeError("Condition must be boolean");
         }
 
-        if((boolean)cond) {
+        if((boolean) cond) {
             return thenBlock.evaluate(env);
         }
 

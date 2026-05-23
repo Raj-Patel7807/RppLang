@@ -26,8 +26,8 @@ public class BinaryOpNode extends Node {
         }
 
         if(l instanceof Double || r instanceof Double) {
-            double a = ((Number)l).doubleValue();
-            double b = ((Number)r).doubleValue();
+            double a = ((Number) l).doubleValue();
+            double b = ((Number) r).doubleValue();
 
             if(operator == TokenType.PLUS) {
                 return a + b;
@@ -84,8 +84,8 @@ public class BinaryOpNode extends Node {
         }
 
         if(l instanceof Long || r instanceof Long) {
-            long a = ((Number)l).longValue();
-            long b = ((Number)r).longValue();
+            long a = ((Number) l).longValue();
+            long b = ((Number) r).longValue();
 
             if(operator == TokenType.PLUS) {
                 return a + b;

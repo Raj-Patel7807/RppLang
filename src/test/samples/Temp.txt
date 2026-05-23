@@ -1,1 +1,0 @@
-jar cfe rpp.jar com.rpp.Main -C out .

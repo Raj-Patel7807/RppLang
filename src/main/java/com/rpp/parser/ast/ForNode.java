@@ -45,10 +45,10 @@ public class ForNode extends Node {
 
     private boolean isTrue(Object val) {
         if(val instanceof Boolean) {
-            return (Boolean)val;
+            return (Boolean) val;
         }
         if(val instanceof Number) {
-            return ((Number)val).doubleValue() != 0;
+            return ((Number) val).doubleValue() != 0;
         }
         return val != null;
     }
