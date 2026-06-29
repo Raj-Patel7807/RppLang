@@ -28,7 +28,7 @@ public class Parser {
 
     private Node statement() {
         if(match(TokenType.LET)) {
-            String name = consume(TokenType.IDENTIFIER).value;
+            String name = consume(TokenType.IDENTIFIER).getValue();
             Node value = null;
 
             if(match(TokenType.ASSIGN)) {
@@ -90,7 +90,7 @@ public class Parser {
 
             Node update = null;
             if(!check(TokenType.SEMICOLON)) {
-                String name = consume(TokenType.IDENTIFIER).value;
+                String name = consume(TokenType.IDENTIFIER).getValue();
                 consume(TokenType.ASSIGN);
 
                 Node value = expression();
@@ -138,7 +138,7 @@ public class Parser {
             return new ContinueNode();
 
         } else if(check(TokenType.IDENTIFIER) && checkNext(TokenType.ASSIGN)) {
-            String name = consume(TokenType.IDENTIFIER).value;
+            String name = consume(TokenType.IDENTIFIER).getValue();
             consume(TokenType.ASSIGN);
 
             Node value = expression();
@@ -148,7 +148,8 @@ public class Parser {
             return new AssignmentNode(name, value);
         }
 
-        throw new ParserError("Invalid statement at token: " + peek());
+        Token token = peek();
+        throw new ParserError("Invalid statement", token.getLine(), token.getColumn(), token.getIndex());
     }
 
     private Node expression() {
@@ -157,7 +158,7 @@ public class Parser {
         while(match(TokenType.PLUS) || match(TokenType.MINUS)) {
             Token op = tokens.get(pos - 1);
             Node right = equality();
-            left = new BinaryOpNode(left, op.type, right);
+            left = new BinaryOpNode(left, op.getType(), right);
         }
 
         return left;
@@ -169,7 +170,7 @@ public class Parser {
         while(match(TokenType.EQUAL_EQUAL) || match(TokenType.NOT_EQUAL)) {
             Token op = tokens.get(pos - 1);
             Node right = comparison();
-            left = new BinaryOpNode(left, op.type, right);
+            left = new BinaryOpNode(left, op.getType(), right);
         }
 
         return left;
@@ -178,10 +179,11 @@ public class Parser {
     private Node comparison() {
         Node left = term();
 
-        while(match(TokenType.GREATER) || match(TokenType.GREATER_EQUAL) || match(TokenType.LESS) || match(TokenType.LESS_EQUAL)) {
+        while(match(TokenType.GREATER) || match(TokenType.GREATER_EQUAL) || match(TokenType.LESS) || match(
+                TokenType.LESS_EQUAL)) {
             Token op = tokens.get(pos - 1);
             Node right = term();
-            left = new BinaryOpNode(left, op.type, right);
+            left = new BinaryOpNode(left, op.getType(), right);
         }
 
         return left;
@@ -193,7 +195,7 @@ public class Parser {
         while(match(TokenType.MULTIPLY) || match(TokenType.DIVIDE)) {
             Token operator = tokens.get(pos - 1);
             Node right = factor();
-            left = new BinaryOpNode(left, operator.type, right);
+            left = new BinaryOpNode(left, operator.getType(), right);
         }
 
         return left;
@@ -201,16 +203,20 @@ public class Parser {
 
     private Node factor() {
         if(match(TokenType.NUMBER)) {
-            return new NumberNode(tokens.get(pos - 1).value);
+            return new NumberNode(tokens.get(pos - 1)
+                                        .getValue());
         }
         if(match(TokenType.STRING)) {
-            return new StringNode(tokens.get(pos - 1).value);
+            return new StringNode(tokens.get(pos - 1)
+                                        .getValue());
         }
         if(match(TokenType.BOOLEAN)) {
-            return new BooleanNode(Boolean.parseBoolean(tokens.get(pos - 1).value));
+            return new BooleanNode(Boolean.parseBoolean(tokens.get(pos - 1)
+                                                              .getValue()));
         }
         if(match(TokenType.IDENTIFIER)) {
-            return new VarNode(tokens.get(pos - 1).value);
+            return new VarNode(tokens.get(pos - 1)
+                                     .getValue());
         }
         if(match(TokenType.LEFT_PAREN)) {
             Node node = expression();
@@ -218,7 +224,8 @@ public class Parser {
             return node;
         }
 
-        throw new ParserError("Invalid expression at token: " + peek());
+        Token token = peek();
+        throw new ParserError("Invalid expression", token.getLine(), token.getColumn(), token.getIndex());
     }
 
     private boolean match(TokenType type) {
@@ -233,18 +240,23 @@ public class Parser {
         if(check(type)) {
             return tokens.get(pos++);
         }
-        throw new ParserError("Expected " + type + " but got " + peek().type + " at position " + peek().position);
+
+        Token token = peek();
+        throw new ParserError("Expected " + type + " but got " + token.getType(), token.getLine(), token.getColumn(),
+                              token.getIndex());
     }
 
     private boolean check(TokenType type) {
-        return tokens.get(pos).type == type;
+        return tokens.get(pos)
+                     .getType() == type;
     }
 
     private boolean checkNext(TokenType type) {
         if(pos + 1 >= tokens.size()) {
             return false;
         }
-        return tokens.get(pos + 1).type == type;
+        return tokens.get(pos + 1)
+                     .getType() == type;
     }
 
     private Token peek() {
